@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useCartStore } from '@/stores/cart'
-import { Menu, ShoppingCart, User } from 'lucide-vue-next'
+import { ShoppingCart, User } from 'lucide-vue-next'
 
 const route = useRoute()
 const router = useRouter()
@@ -21,7 +21,6 @@ const active = computed(() => route.name as string)
 <template>
   <!-- En-tête -->
   <header class="client-header">
-    <button class="icon-btn" @click="router.push('/menu')"><Menu :size="20" /></button>
     <router-link to="/menu" class="logo">Bar<span>'</span>App</router-link>
     <div class="header-right">
       <button class="icon-btn cart-btn" @click="router.push('/cart')">
@@ -60,11 +59,18 @@ const active = computed(() => route.name as string)
   z-index: 100;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   height: var(--header-h);
   padding: 0 16px;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
+}
+
+/* logo centré, actions à droite */
+.client-header .logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .header-right {
@@ -132,5 +138,10 @@ const active = computed(() => route.name as string)
 .client-content {
   flex: 1;
   overflow-y: auto;
+}
+
+/* En desktop les onglets restent groupés à gauche au lieu de s'étirer */
+@media (min-width: 768px) {
+  .tab-btn { flex: 0 0 auto; padding: 0 28px; }
 }
 </style>

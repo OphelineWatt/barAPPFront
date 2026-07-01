@@ -58,7 +58,7 @@ const pendingCount = computed(() => orders.value.filter((o) => o.status !== 'TER
 </script>
 
 <template>
-  <div class="bm-orders-page">
+  <div class="bm-orders-page desk-narrow">
     <h2 class="section-title">Commandes</h2>
 
     <div v-if="loading" class="state-msg">Chargement…</div>

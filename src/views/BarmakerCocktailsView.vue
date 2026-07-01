@@ -124,7 +124,7 @@ function categoryName(cocktail: Cocktail) {
 </script>
 
 <template>
-  <div class="page">
+  <div class="page desk-narrow">
     <!-- En-tête de page -->
     <div class="page-header">
       <h1 class="page-title">MA CARTE</h1>

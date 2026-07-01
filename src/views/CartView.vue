@@ -38,7 +38,7 @@ async function order() {
 </script>
 
 <template>
-  <div class="cart-page">
+  <div class="cart-page desk-narrow">
     <h2 class="section-title">Votre panier</h2>
 
     <div v-if="cart.items.length === 0" class="empty">

@@ -131,7 +131,7 @@ function logout() {
       <span class="page-chip spaced">Profil</span>
     </header>
 
-    <div class="p-body">
+    <div class="p-body desk-narrow">
       <!-- Avatar + identité -->
       <div class="identity">
         <div class="avatar-wrap">

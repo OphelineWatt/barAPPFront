@@ -130,4 +130,9 @@ onMounted(async () => {
 .tab-count { color: var(--gold); }
 
 .bm-content { flex: 1; overflow-y: auto; }
+
+/* En desktop les onglets restent groupés à gauche au lieu de s'étirer */
+@media (min-width: 768px) {
+  .tab-btn { flex: 0 0 auto; padding: 0 28px; }
+}
 </style>

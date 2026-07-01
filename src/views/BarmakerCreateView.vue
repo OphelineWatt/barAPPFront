@@ -40,7 +40,7 @@ async function save() {
 </script>
 
 <template>
-  <div class="team-page">
+  <div class="team-page desk-narrow">
     <h2 class="section-title">Ajouter un barmaker</h2>
     <p class="intro">Créez un compte pour un nouveau membre de l'équipe. Il pourra gérer la carte et les commandes.</p>
 

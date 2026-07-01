@@ -161,6 +161,19 @@ function categoryName(id?: number) {
   padding: 16px;
 }
 
+/* En desktop, on passe la carte en grille pour occuper la largeur */
+@media (min-width: 768px) {
+  .cocktail-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1200px) {
+  .cocktail-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
 .cocktail-card { border-radius: var(--radius); }
 
 .img-wrap {

@@ -48,7 +48,7 @@ function statusLabel(s: string) {
 </script>
 
 <template>
-  <div class="tracking-page">
+  <div class="tracking-page desk-narrow">
     <h2 class="section-title">Suivi de commande</h2>
 
     <div v-if="loading" class="state-msg">Chargement…</div>
