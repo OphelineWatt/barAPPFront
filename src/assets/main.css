@@ -1,0 +1,152 @@
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800;900&family=Barlow:wght@400;500;600&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg:        #0d0d0d;
+  --bg-card:   #1a1a1a;
+  --bg-input:  #1c1c1c;
+  --red:       #c0392b;
+  --red-hover: #e74c3c;
+  --gold:      #e8a000;
+  --text:      #ffffff;
+  --muted:     #888888;
+  --border:    #2a2a2a;
+  --radius:    10px;
+  --header-h:  56px;
+  --tabs-h:    48px;
+}
+
+html, body {
+  height: 100%;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Barlow', Arial, sans-serif;
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+}
+
+#app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+a { color: inherit; text-decoration: none; }
+button { cursor: pointer; font-family: inherit; border: none; outline: none; }
+input, textarea, select { font-family: inherit; }
+
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+/* ── Utility ──────────────────────────────── */
+.spaced { letter-spacing: 0.12em; text-transform: uppercase; }
+
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 48px;
+  width: 100%;
+  border-radius: var(--radius);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  transition: opacity 0.15s;
+}
+.btn:active { opacity: 0.8; }
+.btn-red  { background: var(--red); color: #fff; }
+.btn-red:hover { background: var(--red-hover); }
+.btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+
+/* ── Badge ────────────────────────────────── */
+.badge {
+  display: inline-block;
+  padding: 3px 8px;
+  border-radius: 4px;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.badge-pending  { background: #222; border: 1px solid var(--border); color: var(--text); }
+.badge-progress { background: rgba(232,160,0,.15); border: 1px solid var(--gold); color: var(--gold); }
+.badge-done     { background: rgba(39,174,96,.15);  border: 1px solid #27ae60;    color: #27ae60; }
+
+/* ── Logo ─────────────────────────────────── */
+.logo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  user-select: none;
+}
+.logo span { color: var(--red); }
+
+/* ── Card ─────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+/* ── Form ─────────────────────────────────── */
+.field-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+  display: block;
+}
+.field-input {
+  width: 100%;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  padding: 0 14px;
+  height: 48px;
+  font-size: 15px;
+  transition: border-color 0.15s;
+}
+.field-input:focus { outline: none; border-color: var(--red); }
+
+/* ── Misc ─────────────────────────────────── */
+.divider { height: 1px; background: var(--border); margin: 20px 0; }
+
+.section-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 32px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  margin-bottom: 16px;
+}
+
+.icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  font-size: 18px;
+}
