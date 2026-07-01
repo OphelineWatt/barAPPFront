@@ -4,7 +4,9 @@ import { login as loginApi } from '@/api/auth'
 
 function parseJwt(token: string): Record<string, unknown> {
   try {
-    const payload = token.split('.')[1]
+    const parts = token.split('.')
+    if (parts.length < 2) return {}
+    const payload = parts[1]!
     return JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')))
   } catch {
     return {}

@@ -28,12 +28,15 @@ export const useCartStore = defineStore('cart', () => {
   }
 
   function increment(index: number) {
-    items.value[index].quantity++
+    const item = items.value[index]
+    if (item) item.quantity++
   }
 
   function decrement(index: number) {
-    if (items.value[index].quantity > 1) {
-      items.value[index].quantity--
+    const item = items.value[index]
+    if (!item) return
+    if (item.quantity > 1) {
+      item.quantity--
     } else {
       items.value.splice(index, 1)
     }

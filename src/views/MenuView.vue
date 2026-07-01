@@ -19,7 +19,8 @@ onMounted(async () => {
     categories.value = cats
     // default selected size = first price for each cocktail
     cocktails.value.forEach((c) => {
-      if (c.prices?.length) selectedSizes.value[c.id] = c.prices[0].sizeId
+      const first = c.prices?.[0]
+      if (first) selectedSizes.value[c.id] = first.sizeId
     })
   } finally {
     loading.value = false

@@ -50,7 +50,8 @@ function itemDone(status: string) { return status === 'TERMINEE' }
 function nextLabel(status: string) {
   const idx = ITEM_STEPS.indexOf(status)
   if (idx < 0 || idx >= ITEM_STEPS.length - 1) return null
-  return ITEM_LABELS[ITEM_STEPS[idx + 1]]
+  const next = ITEM_STEPS[idx + 1]
+  return next ? ITEM_LABELS[next] : null
 }
 
 const pendingCount = computed(() => orders.value.filter((o) => o.status !== 'TERMINEE').length)

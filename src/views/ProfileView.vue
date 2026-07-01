@@ -10,13 +10,14 @@ function logout() {
   router.push('/login')
 }
 
-const initials = (email: string) =>
-  email
-    .split('@')[0]
+const initials = (email: string) => {
+  const local = email.split('@')[0] ?? ''
+  return local
     .split(/[._-]/)
     .map((p) => p[0]?.toUpperCase() ?? '')
     .slice(0, 2)
     .join('')
+}
 </script>
 
 <template>
