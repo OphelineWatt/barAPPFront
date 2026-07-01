@@ -112,7 +112,7 @@ function priceLabel(cocktail: Cocktail) {
   if (!cocktail.prices?.length) return ''
   const order: Record<string, number> = { S: 0, M: 1, L: 2 }
   return [...cocktail.prices]
-    .sort((a, b) => (order[a.sizeCode] ?? 0) - (order[b.sizeCode] ?? 0))
+    .sort((a, b) => (order[a.sizeCode ?? ''] ?? 0) - (order[b.sizeCode ?? ''] ?? 0))
     .map((p) => `${p.price}€`)
     .join(' / ')
 }
