@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { useCartStore } from '@/stores/cart'
+import { Menu, ShoppingCart, User } from 'lucide-vue-next'
 
 const route = useRoute()
 const router = useRouter()
@@ -20,15 +21,15 @@ const active = computed(() => route.name as string)
 <template>
   <!-- Header -->
   <header class="client-header">
-    <button class="icon-btn" @click="router.push('/menu')">☰</button>
+    <button class="icon-btn" @click="router.push('/menu')"><Menu :size="20" /></button>
     <router-link to="/menu" class="logo">Bar<span>'</span>App</router-link>
     <div class="header-right">
       <button class="icon-btn cart-btn" @click="router.push('/cart')">
-        🛒
+        <ShoppingCart :size="20" />
         <span v-if="cart.count > 0" class="cart-badge">{{ cart.count }}</span>
       </button>
       <button class="icon-btn" @click="router.push(auth.isAuthenticated ? '/profile' : '/login')">
-        👤
+        <User :size="20" />
       </button>
     </div>
   </header>

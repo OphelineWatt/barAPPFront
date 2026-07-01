@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth'
 import { getOrders } from '@/api/orders'
-import { ref, onMounted } from 'vue'
+import { Zap, User } from 'lucide-vue-next'
 
 const route = useRoute()
 const router = useRouter()
@@ -25,11 +25,11 @@ onMounted(async () => {
   <!-- Header barmaker -->
   <header class="bm-header">
     <div class="bm-header-left">
-      <span class="bm-icon">⚡</span>
+      <Zap :size="16" class="bm-icon" />
       <span class="bm-label spaced">Barmaker</span>
     </div>
     <router-link to="/barmaker/orders" class="logo">Bar<span>'</span>App</router-link>
-    <button class="icon-btn" @click="router.push('/profile')">👤</button>
+    <button class="icon-btn" @click="router.push('/profile')"><User :size="20" /></button>
   </header>
 
   <!-- Tabs -->
@@ -77,7 +77,8 @@ onMounted(async () => {
 }
 
 .bm-icon {
-  font-size: 16px;
+  color: var(--gold);
+  flex-shrink: 0;
 }
 
 .bm-label {
