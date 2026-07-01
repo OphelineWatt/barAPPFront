@@ -7,13 +7,13 @@ const router = createRouter({
     { path: '/', redirect: '/menu' },
     { path: '/login', name: 'login', component: () => import('@/views/LoginView.vue') },
 
-    // CLIENT
+    // routes côté client
     { path: '/menu',    name: 'menu',    component: () => import('@/views/MenuView.vue'),          meta: { requiresAuth: false } },
     { path: '/cart',    name: 'cart',    component: () => import('@/views/CartView.vue'),          meta: { requiresAuth: true } },
     { path: '/order',   name: 'order',   component: () => import('@/views/OrderTrackingView.vue'), meta: { requiresAuth: true } },
     { path: '/profile', name: 'profile', component: () => import('@/views/ProfileView.vue'),       meta: { requiresAuth: true } },
 
-    // BARMAKER
+    // routes côté barmaker
     {
       path: '/barmaker/orders',
       name: 'barmaker-orders',

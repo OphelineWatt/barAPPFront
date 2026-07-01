@@ -57,7 +57,7 @@ function statusLabel(s: string) {
     </div>
 
     <div v-else class="order-detail">
-      <!-- Order summary -->
+      <!-- Résumé de la commande -->
       <div class="order-header card">
         <div class="order-meta">
           <span class="order-id">ORD-{{ String(lastOrder.id).padStart(3, '0') }}</span>
@@ -72,7 +72,7 @@ function statusLabel(s: string) {
         </p>
       </div>
 
-      <!-- Items -->
+      <!-- Détail des cocktails -->
       <p class="items-title spaced">Cocktails</p>
 
       <div class="items-list">
@@ -90,7 +90,7 @@ function statusLabel(s: string) {
 
       <p class="refresh-note">Les étapes se mettent à jour en temps réel</p>
 
-      <!-- All orders -->
+      <!-- Toutes mes commandes -->
       <div v-if="orders.length > 1" class="history">
         <p class="items-title spaced" style="margin-top:24px">Historique</p>
         <div v-for="o in orders.slice(1)" :key="o.id" class="history-item card">

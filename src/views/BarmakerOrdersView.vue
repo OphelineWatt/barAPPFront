@@ -66,7 +66,7 @@ const pendingCount = computed(() => orders.value.filter((o) => o.status !== 'TER
 
     <div v-else class="orders-list">
       <div v-for="order in orders" :key="order.id" class="order-card card">
-        <!-- Header row -->
+        <!-- Ligne principale de la commande -->
         <div class="order-row" @click="toggle(order.id)">
           <div class="order-left">
             <div class="order-top">
@@ -78,7 +78,7 @@ const pendingCount = computed(() => orders.value.filter((o) => o.status !== 'TER
             <p class="order-count">{{ order.items.length }} cocktail{{ order.items.length > 1 ? 's' : '' }}</p>
           </div>
 
-          <!-- Progress dots -->
+          <!-- Petits carrés qui montrent l'avancement de chaque cocktail -->
           <div class="progress-dots">
             <span
               v-for="item in order.items"
@@ -94,7 +94,7 @@ const pendingCount = computed(() => orders.value.filter((o) => o.status !== 'TER
           <span class="chevron">{{ expanded === order.id ? '∨' : '›' }}</span>
         </div>
 
-        <!-- Expanded items -->
+        <!-- Détail affiché quand on déplie la commande -->
         <div v-if="expanded === order.id" class="order-items">
           <div class="divider" style="margin: 0 16px" />
           <div

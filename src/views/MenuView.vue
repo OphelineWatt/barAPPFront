@@ -17,7 +17,7 @@ onMounted(async () => {
     const [c, cats] = await Promise.all([getCocktails(), getCategories()])
     cocktails.value = c.filter((c) => c.active)
     categories.value = cats
-    // default selected size = first price for each cocktail
+    // par défaut on sélectionne la première taille disponible de chaque cocktail
     cocktails.value.forEach((c) => {
       const first = c.prices?.[0]
       if (first) selectedSizes.value[c.id] = first.sizeId
@@ -50,7 +50,7 @@ function categoryName(id?: number) {
 </script>
 
 <template>
-  <!-- Category filters -->
+  <!-- Filtres par catégorie -->
   <div class="filters">
     <button
       class="filter-chip"
@@ -73,10 +73,10 @@ function categoryName(id?: number) {
   <div v-if="loading" class="state-msg">Chargement…</div>
   <div v-else-if="filtered.length === 0" class="state-msg">Aucun cocktail disponible.</div>
 
-  <!-- Cocktail list -->
+  <!-- Liste des cocktails -->
   <div v-else class="cocktail-list">
     <div v-for="cocktail in filtered" :key="cocktail.id" class="cocktail-card card">
-      <!-- Image -->
+      <!-- Photo du cocktail -->
       <div class="img-wrap">
         <img
           v-if="cocktail.imageUrl"
@@ -91,12 +91,12 @@ function categoryName(id?: number) {
         </span>
       </div>
 
-      <!-- Info -->
+      <!-- Infos et prix -->
       <div class="cocktail-body">
         <h3 class="cocktail-name">{{ cocktail.name }}</h3>
         <p v-if="cocktail.description" class="cocktail-desc">{{ cocktail.description }}</p>
 
-        <!-- Size selector -->
+        <!-- Choix de la taille -->
         <div v-if="cocktail.prices?.length" class="size-row">
           <button
             v-for="p in cocktail.prices"

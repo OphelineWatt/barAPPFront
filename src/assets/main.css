@@ -46,7 +46,7 @@ input, textarea, select { font-family: inherit; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-/* ── Utility ──────────────────────────────── */
+/* ── Utilitaires ──────────────────────────── */
 .spaced { letter-spacing: 0.12em; text-transform: uppercase; }
 
 .btn {
@@ -69,7 +69,7 @@ input, textarea, select { font-family: inherit; }
 .btn-red:hover { background: var(--red-hover); }
 .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
 
-/* ── Badge ────────────────────────────────── */
+/* ── Badges ───────────────────────────────── */
 .badge {
   display: inline-block;
   padding: 3px 8px;
@@ -96,7 +96,7 @@ input, textarea, select { font-family: inherit; }
 }
 .logo span { color: var(--red); }
 
-/* ── Card ─────────────────────────────────── */
+/* ── Cartes ───────────────────────────────── */
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border);
@@ -104,7 +104,7 @@ input, textarea, select { font-family: inherit; }
   overflow: hidden;
 }
 
-/* ── Form ─────────────────────────────────── */
+/* ── Formulaires ──────────────────────────── */
 .field-label {
   font-size: 10px;
   font-weight: 600;
@@ -127,7 +127,7 @@ input, textarea, select { font-family: inherit; }
 }
 .field-input:focus { outline: none; border-color: var(--red); }
 
-/* ── Misc ─────────────────────────────────── */
+/* ── Divers ───────────────────────────────── */
 .divider { height: 1px; background: var(--border); margin: 20px 0; }
 
 .section-title {

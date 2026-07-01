@@ -16,13 +16,13 @@ onMounted(async () => {
     const orders = await getOrders('COMMANDEE')
     pendingCount.value = orders.length
   } catch {
-    // silently ignore
+    // en cas d'erreur on ignore, le compteur reste juste à 0
   }
 })
 </script>
 
 <template>
-  <!-- Header barmaker -->
+  <!-- En-tête barmaker -->
   <header class="bm-header">
     <div class="bm-header-left">
       <Zap :size="16" class="bm-icon" />
@@ -32,7 +32,7 @@ onMounted(async () => {
     <button class="icon-btn" @click="router.push('/profile')"><User :size="20" /></button>
   </header>
 
-  <!-- Tabs -->
+  <!-- Onglets de navigation -->
   <nav class="bm-tabs">
     <button
       class="tab-btn"

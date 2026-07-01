@@ -5,6 +5,10 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   token: string
+  userId: number
+  email: string
+  name: string
+  role: string
 }
 
 export interface Category {

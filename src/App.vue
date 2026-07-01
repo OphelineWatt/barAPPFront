@@ -7,11 +7,12 @@ import BarmakerLayout from '@/components/BarmakerLayout.vue'
 
 const auth = useAuthStore()
 const route = useRoute()
-const isLogin = computed(() => route.name === 'login')
+// pages affichées en plein écran, sans l'en-tête ni les onglets client/barmaker
+const isBare = computed(() => route.name === 'login' || route.name === 'profile')
 </script>
 
 <template>
-  <BarmakerLayout v-if="auth.isAuthenticated && auth.isBarmaker && !isLogin" />
-  <ClientLayout v-else-if="!isLogin" />
+  <BarmakerLayout v-if="auth.isAuthenticated && auth.isBarmaker && !isBare" />
+  <ClientLayout v-else-if="!isBare" />
   <RouterView v-else />
 </template>

@@ -19,7 +19,7 @@ const active = computed(() => route.name as string)
 </script>
 
 <template>
-  <!-- Header -->
+  <!-- En-tête -->
   <header class="client-header">
     <button class="icon-btn" @click="router.push('/menu')"><Menu :size="20" /></button>
     <router-link to="/menu" class="logo">Bar<span>'</span>App</router-link>
@@ -34,7 +34,7 @@ const active = computed(() => route.name as string)
     </div>
   </header>
 
-  <!-- Tabs -->
+  <!-- Onglets de navigation -->
   <nav class="client-tabs">
     <button
       v-for="tab in tabs"
