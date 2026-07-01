@@ -49,6 +49,13 @@ onMounted(async () => {
     >
       Ma Carte
     </button>
+    <button
+      class="tab-btn"
+      :class="{ active: active === 'barmaker-team' }"
+      @click="router.push({ name: 'barmaker-team' })"
+    >
+      Équipe
+    </button>
   </nav>
 
   <main class="bm-content">

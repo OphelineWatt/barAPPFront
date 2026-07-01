@@ -6,6 +6,7 @@ const router = createRouter({
   routes: [
     { path: '/', redirect: '/menu' },
     { path: '/login', name: 'login', component: () => import('@/views/LoginView.vue') },
+    { path: '/register', name: 'register', component: () => import('@/views/RegisterView.vue') },
 
     // routes côté client
     { path: '/menu',    name: 'menu',    component: () => import('@/views/MenuView.vue'),          meta: { requiresAuth: false } },
@@ -26,6 +27,12 @@ const router = createRouter({
       component: () => import('@/views/BarmakerCocktailsView.vue'),
       meta: { requiresAuth: true, requiresBarmaker: true },
     },
+    {
+      path: '/barmaker/team',
+      name: 'barmaker-team',
+      component: () => import('@/views/BarmakerCreateView.vue'),
+      meta: { requiresAuth: true, requiresBarmaker: true },
+    },
   ],
 })
 
@@ -38,7 +45,8 @@ router.beforeEach((to) => {
   if (to.meta.requiresBarmaker && !auth.isBarmaker) {
     return { name: 'menu' }
   }
-  if (to.name === 'login' && auth.isAuthenticated) {
+  // un utilisateur déjà connecté n'a rien à faire sur le login ou l'inscription
+  if ((to.name === 'login' || to.name === 'register') && auth.isAuthenticated) {
     return auth.isBarmaker ? { name: 'barmaker-orders' } : { name: 'menu' }
   }
 })

@@ -8,7 +8,9 @@ import BarmakerLayout from '@/components/BarmakerLayout.vue'
 const auth = useAuthStore()
 const route = useRoute()
 // pages affichées en plein écran, sans l'en-tête ni les onglets client/barmaker
-const isBare = computed(() => route.name === 'login' || route.name === 'profile')
+const isBare = computed(
+  () => route.name === 'login' || route.name === 'register' || route.name === 'profile',
+)
 </script>
 
 <template>

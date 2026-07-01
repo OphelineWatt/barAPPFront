@@ -1,30 +1,34 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
-import { useAuthStore } from '@/stores/auth'
+import { useRouter } from 'vue-router'
+import { registerClient } from '@/api/users'
 
 const router = useRouter()
-const route = useRoute()
-const auth = useAuthStore()
 
+const name = ref('')
 const email = ref('')
 const password = ref('')
 const showPassword = ref(false)
 const error = ref('')
 const loading = ref(false)
-// message affiché quand on arrive juste après une inscription réussie
-const justRegistered = route.query.registered === '1'
 
 async function submit() {
-  if (!email.value || !password.value) return
+  if (!name.value || !email.value || !password.value) {
+    error.value = 'Merci de remplir tous les champs.'
+    return
+  }
+  if (password.value.length < 6) {
+    error.value = 'Le mot de passe doit faire au moins 6 caractères.'
+    return
+  }
   loading.value = true
   error.value = ''
   try {
-    await auth.login(email.value, password.value)
-    const redirect = (route.query.redirect as string) || (auth.isBarmaker ? '/barmaker/orders' : '/menu')
-    router.push(redirect)
+    await registerClient({ name: name.value, email: email.value, password: password.value })
+    // compte créé : on renvoie vers le login avec un message de confirmation
+    router.push({ name: 'login', query: { registered: '1' } })
   } catch {
-    error.value = 'Email ou mot de passe incorrect.'
+    error.value = 'Cet email est déjà utilisé.'
   } finally {
     loading.value = false
   }
@@ -32,18 +36,27 @@ async function submit() {
 </script>
 
 <template>
-  <div class="login-page">
+  <div class="register-page">
     <div class="glow" />
 
-    <div class="login-box">
-      <p class="welcome spaced">Bienvenue au</p>
+    <div class="register-box">
+      <p class="welcome spaced">Rejoignez le</p>
       <h1 class="brand">Bar<span>'</span>App</h1>
       <div class="divider" />
-      <p class="sub spaced">Connexion</p>
-
-      <p v-if="justRegistered" class="success-msg">Compte créé, connectez-vous.</p>
+      <p class="sub spaced">Créer un compte</p>
 
       <form @submit.prevent="submit" class="form">
+        <div class="field">
+          <label class="field-label">Nom</label>
+          <input
+            v-model="name"
+            type="text"
+            class="field-input"
+            placeholder="Alex Durand"
+            autocomplete="name"
+          />
+        </div>
+
         <div class="field">
           <label class="field-label">Email</label>
           <input
@@ -63,7 +76,7 @@ async function submit() {
               :type="showPassword ? 'text' : 'password'"
               class="field-input"
               placeholder="••••••••"
-              autocomplete="current-password"
+              autocomplete="new-password"
             />
             <button type="button" class="eye-btn" @click="showPassword = !showPassword">
               {{ showPassword ? '🙈' : '👁️' }}
@@ -74,20 +87,20 @@ async function submit() {
         <p v-if="error" class="error-msg">{{ error }}</p>
 
         <button type="submit" class="btn btn-red" :disabled="loading">
-          {{ loading ? 'Connexion…' : 'Se connecter' }}
+          {{ loading ? 'Création…' : "S'inscrire" }}
         </button>
       </form>
 
       <p class="hint">
-        Pas encore de compte ?
-        <RouterLink to="/register" class="link">Inscrivez-vous</RouterLink>
+        Déjà un compte ?
+        <RouterLink to="/login" class="link">Se connecter</RouterLink>
       </p>
     </div>
   </div>
 </template>
 
 <style scoped>
-.login-page {
+.register-page {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
@@ -110,7 +123,7 @@ async function submit() {
   pointer-events: none;
 }
 
-.login-box {
+.register-box {
   width: 100%;
   max-width: 360px;
   display: flex;
@@ -171,19 +184,11 @@ async function submit() {
   text-align: center;
 }
 
-.success-msg {
-  color: #27ae60;
-  font-size: 13px;
-  text-align: center;
-  margin-bottom: 16px;
-}
-
 .hint {
   margin-top: 20px;
   font-size: 12px;
   color: var(--muted);
   text-align: center;
-  line-height: 1.4;
 }
 .link { color: var(--red); font-weight: 600; }
 </style>
