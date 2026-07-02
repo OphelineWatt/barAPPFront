@@ -88,8 +88,6 @@ function statusLabel(s: string) {
         </div>
       </div>
 
-      <p class="refresh-note">Les étapes se mettent à jour en temps réel</p>
-
       <!-- Toutes mes commandes -->
       <div v-if="orders.length > 1" class="history">
         <p class="items-title spaced" style="margin-top:24px">Historique</p>
@@ -138,8 +136,6 @@ function statusLabel(s: string) {
 }
 .item-sub { font-size: 12px; color: var(--muted); }
 .item-step { font-size: 12px; color: var(--gold); margin-top: 4px; }
-
-.refresh-note { font-size: 12px; color: var(--muted); text-align: center; }
 
 .history { display: flex; flex-direction: column; gap: 10px; }
 .history-item {
