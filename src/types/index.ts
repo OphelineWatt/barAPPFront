@@ -17,6 +17,12 @@ export interface Category {
   description?: string
 }
 
+export interface Ingredient {
+  id: number
+  name: string
+  unit?: string
+}
+
 export interface CocktailIngredient {
   ingredientId: number
   ingredientName?: string

@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { Plus, Search, Trash2, X } from 'lucide-vue-next'
 import { getCocktails, createCocktail, deleteCocktail, searchExternal } from '@/api/cocktails'
 import { getCategories } from '@/api/categories'
-import type { Cocktail, Category, ExternalCocktail } from '@/types'
+import { getIngredients, createIngredient } from '@/api/ingredients'
+import type { Cocktail, Category, ExternalCocktail, Ingredient } from '@/types'
 
 const cocktails = ref<Cocktail[]>([])
 const categories = ref<Category[]>([])
+const allIngredients = ref<Ingredient[]>([])
 const externalResults = ref<ExternalCocktail[]>([])
 const searchQuery = ref('')
 const searching = ref(false)
@@ -15,6 +17,18 @@ const activeTab = ref<'cocktails' | 'categories'>('cocktails')
 const showModal = ref(false)
 const saving = ref(false)
 const error = ref('')
+
+// ingrédients ajoutés au cocktail en cours de création
+const chosenIngredients = ref<{ ingredientId: number; name: string; quantity: string }[]>([])
+const ingredientToAdd = ref<number | null>(null)
+const ingredientQty = ref('')
+const newIngredientName = ref('')
+const addingIngredient = ref(false)
+
+// ingrédients pas encore ajoutés au cocktail (pour éviter les doublons dans le select)
+const availableIngredients = computed(() =>
+  allIngredients.value.filter((i) => !chosenIngredients.value.some((c) => c.ingredientId === i.id)),
+)
 
 const SIZES = [
   { id: 1, code: 'S' },
@@ -35,13 +49,41 @@ const form = ref({
 
 onMounted(async () => {
   try {
-    const [c, cats] = await Promise.all([getCocktails(), getCategories()])
+    const [c, cats, ings] = await Promise.all([getCocktails(), getCategories(), getIngredients()])
     cocktails.value = c
     categories.value = cats
+    allIngredients.value = ings
   } finally {
     loading.value = false
   }
 })
+
+function addIngredient() {
+  if (ingredientToAdd.value == null) return
+  const ing = allIngredients.value.find((i) => i.id === ingredientToAdd.value)
+  if (!ing) return
+  chosenIngredients.value.push({ ingredientId: ing.id, name: ing.name, quantity: ingredientQty.value.trim() })
+  ingredientToAdd.value = null
+  ingredientQty.value = ''
+}
+
+function removeIngredient(idx: number) {
+  chosenIngredients.value.splice(idx, 1)
+}
+
+// crée un nouvel ingrédient puis recharge la liste pour pouvoir le sélectionner
+async function addNewIngredient() {
+  const name = newIngredientName.value.trim()
+  if (!name) return
+  addingIngredient.value = true
+  try {
+    await createIngredient({ name })
+    allIngredients.value = await getIngredients()
+    newIngredientName.value = ''
+  } finally {
+    addingIngredient.value = false
+  }
+}
 
 async function searchDb() {
   if (!searchQuery.value.trim()) return
@@ -64,6 +106,10 @@ function importCocktail(ext: ExternalCocktail) {
 
 function openModal() {
   form.value = { name: '', description: '', imageUrl: '', categoryId: null, active: true, priceS: null, priceM: null, priceL: null }
+  chosenIngredients.value = []
+  ingredientToAdd.value = null
+  ingredientQty.value = ''
+  newIngredientName.value = ''
   error.value = ''
   externalResults.value = []
   searchQuery.value = ''
@@ -90,7 +136,10 @@ async function save() {
       imageUrl: form.value.imageUrl,
       categoryId: form.value.categoryId ?? undefined,
       active: form.value.active,
-      ingredients: [],
+      ingredients: chosenIngredients.value.map((i) => ({
+        ingredientId: i.ingredientId,
+        quantity: i.quantity,
+      })),
       prices,
     })
     cocktails.value = await getCocktails()
@@ -262,6 +311,42 @@ function categoryName(cocktail: Cocktail) {
                     :placeholder="s.code === 'S' ? '9' : s.code === 'M' ? '12' : '15'"
                   />
                 </div>
+              </div>
+            </div>
+            <div class="field">
+              <label class="field-label">Ingrédients</label>
+
+              <!-- ingrédients déjà ajoutés -->
+              <div v-if="chosenIngredients.length" class="chosen-ings">
+                <span v-for="(ing, idx) in chosenIngredients" :key="ing.ingredientId" class="ing-chip">
+                  {{ ing.name }}<template v-if="ing.quantity"> · {{ ing.quantity }}</template>
+                  <button class="chip-x" @click="removeIngredient(idx)"><X :size="12" /></button>
+                </span>
+              </div>
+
+              <!-- ajouter un ingrédient existant -->
+              <div class="ing-add-row">
+                <select v-model="ingredientToAdd" class="field-input">
+                  <option :value="null">— Choisir un ingrédient —</option>
+                  <option v-for="i in availableIngredients" :key="i.id" :value="i.id">{{ i.name }}</option>
+                </select>
+                <input v-model="ingredientQty" class="field-input ing-qty" placeholder="5 cl" />
+                <button class="btn btn-outline ing-add-btn" @click="addIngredient">
+                  <Plus :size="16" />
+                </button>
+              </div>
+
+              <!-- créer un nouvel ingrédient -->
+              <div class="ing-add-row">
+                <input
+                  v-model="newIngredientName"
+                  class="field-input"
+                  placeholder="Nouvel ingrédient (ex : Rhum blanc)"
+                  @keyup.enter="addNewIngredient"
+                />
+                <button class="btn btn-outline ing-add-btn wide" :disabled="addingIngredient" @click="addNewIngredient">
+                  {{ addingIngredient ? '…' : 'Créer' }}
+                </button>
               </div>
             </div>
             <div class="active-row">
@@ -478,6 +563,31 @@ function categoryName(cocktail: Cocktail) {
   flex-shrink: 0;
 }
 .price-input { text-align: center; padding: 0 8px; }
+
+/* Ingrédients */
+.chosen-ings { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.ing-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 4px 6px 4px 10px;
+  font-size: 12px;
+}
+.chip-x {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  color: var(--muted);
+  padding: 0;
+}
+.chip-x:hover { color: var(--red); }
+.ing-add-row { display: flex; gap: 8px; margin-bottom: 8px; }
+.ing-qty { max-width: 80px; text-align: center; }
+.ing-add-btn { width: 48px; height: 48px; flex-shrink: 0; padding: 0; }
+.ing-add-btn.wide { width: auto; padding: 0 14px; font-size: 12px; }
 
 .active-row { display: flex; align-items: center; justify-content: space-between; }
 .error-msg { color: var(--red); font-size: 13px; }

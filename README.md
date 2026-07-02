@@ -1,48 +1,69 @@
-# barapp-frontend
+# Bar'app — Frontend (Vue 3 + TypeScript)
 
-This template should help get you started developing with Vue 3 in Vite.
+Interface web du projet **Bar'app**. Deux expériences selon le rôle :
+- **Client** : consulter la carte, filtrer par catégorie, remplir son panier,
+  passer commande et suivre l'avancement.
+- **Barmaker** : gérer la carte (catégories, cocktails, prix), traiter les
+  commandes étape par étape, et créer des comptes barmaker.
 
-## Recommended IDE Setup
+## Technologies
+- **Vue 3** (`<script setup>`) + **TypeScript**
+- **Vite** (build/dev)
+- **Vue Router** (navigation + gardes selon le rôle)
+- **Pinia** (stores `auth` et `cart`)
+- **Axios** (appels API + injection du token JWT)
+- **lucide-vue-next** (icônes)
+- **Vitest** + **@vue/test-utils** (tests)
+- Design **mobile-first** et **responsive** (desktop en grille)
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Prérequis
+- Node.js ≥ 22
+- Le **backend** doit tourner sur `http://localhost:8081`
+  (voir le repo `barapp-backend`).
 
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
+## Installation & lancement
 ```sh
 npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
 npm run dev
 ```
+Application disponible sur **http://localhost:5173**.
 
-### Type-Check, Compile and Minify for Production
+## Comptes de démonstration
+| Rôle | Email | Mot de passe |
+|------|-------|--------------|
+| Barmaker | `barmaker@barapp.fr` | `barmaker123` |
+| Client   | `client@barapp.fr`   | `client123`  |
 
+Un nouveau client peut aussi **s'inscrire** depuis l'écran de connexion.
+
+## Scripts utiles
 ```sh
-npm run build
+npm run dev         # serveur de développement
+npm run build       # build de production (dossier dist/)
+npm run test:unit   # tests unitaires (Vitest)
+npm run type-check  # vérification des types (vue-tsc)
+npm run lint        # linting
 ```
 
-### Lint with [ESLint](https://eslint.org/)
+## Configuration
+L'URL de l'API est définie dans [`src/api/axios.ts`](src/api/axios.ts)
+(`http://localhost:8081/api`).
 
-```sh
-npm run lint
+## Architecture (dossier `src/`)
 ```
+src/
+├── api/         # appels HTTP (auth, cocktails, categories, orders, users)
+├── stores/      # Pinia : auth (JWT), cart (panier)
+├── router/      # routes + gardes de navigation (auth / barmaker)
+├── components/  # layouts client & barmaker
+├── views/       # écrans (login, inscription, carte, panier, suivi,
+│                #          profil, commandes barmaker, carte barmaker, équipe)
+├── types/       # interfaces TypeScript
+└── assets/      # styles globaux (thème sombre)
+```
+
+## Tests
+```sh
+npm run test:unit
+```
+Couvre les stores (panier, auth) et un test de composant (carte + ajout au panier).
