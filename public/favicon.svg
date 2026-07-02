@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="#0d0d0d"/>
+  <!-- pique + cerise -->
+  <line x1="20" y1="6" x2="14.5" y2="12" stroke="#e8a000" stroke-width="1.5" stroke-linecap="round"/>
+  <circle cx="20.8" cy="5.4" r="2" fill="#c0392b" stroke="#e8a000" stroke-width="1"/>
+  <!-- verre à cocktail -->
+  <g stroke="#e8a000" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 9 H24 L16 18 Z" fill="#c0392b"/>
+    <line x1="16" y1="18" x2="16" y2="24"/>
+    <line x1="11" y1="24.5" x2="21" y2="24.5"/>
+  </g>
+</svg>
